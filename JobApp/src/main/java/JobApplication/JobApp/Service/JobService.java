@@ -15,6 +15,7 @@ public class JobService {
 
     public Job addJob(Job job)
     {
+        job.setJobId(Job.getIdCounter());
         return jobRepo.addJob(job);
     }
 

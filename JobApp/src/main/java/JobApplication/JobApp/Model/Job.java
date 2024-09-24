@@ -2,14 +2,16 @@ package JobApplication.JobApp.Model;
 
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import java.util.List;
 
+@Slf4j
 @Component
-@Getter
 public class Job {
-    @Getter(AccessLevel.NONE)
     private static int jobIdCounter=1;
+    @Setter
     private int jobId;
     private String jobTitle;
     private String jobDesc;
@@ -25,5 +27,10 @@ public class Job {
         this.jobDesc = jobDesc;
         this.noOfPositions=noOfPositions;
         this.requiredSkills = requiredSkills;
+    }
+
+    public static int getIdCounter() {
+        log.info("Test");
+        return jobIdCounter++;
     }
 }

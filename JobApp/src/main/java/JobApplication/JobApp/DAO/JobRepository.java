@@ -36,6 +36,7 @@ public class JobRepository {
     }
     public Job addJob(Job job)
     {
+
         this.jobs.add(job);
         if(this.jobs.contains(job))
         {
