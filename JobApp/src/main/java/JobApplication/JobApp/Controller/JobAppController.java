@@ -5,31 +5,40 @@ import JobApplication.JobApp.Service.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/jobs")
 public class JobAppController {
 
     @Autowired
     private JobService jobService;
 
-    @GetMapping(path = {"/jobs"},produces = "application/json")
+    @GetMapping(path = {"/"},produces = "application/json")
     public ResponseEntity<List<Job>> getAllJobs()
     {
         List<Job> jobs=this.jobService.getAllJobs();
         return new ResponseEntity<>(jobs, HttpStatus.OK);
     }
 
-    @PostMapping(path = {"/jobs"},consumes = "application/json")
+    @GetMapping(path = "/{id}",consumes = "application/json")
+    public ResponseEntity<Job> getJobById(@PathVariable Long id)
+    {
+        return this.jobService.getJobById(id);
+    }
+
+    @PostMapping(path = {"/addjob"},consumes = "application/json")
     public ResponseEntity<Job> addJob(@RequestBody Job job)
     {
-        Job addedJob=this.jobService.addJob(job);
-        return ResponseEntity.ok().body(addedJob);
+        return this.jobService.addJob(job);
+    }
+
+    @PutMapping(path = "/{id}",consumes = "application/json")
+    public ResponseEntity<Job> updateJob(@PathVariable Long id,@RequestBody Job job)
+    {
+        return this.jobService.updateJob(id,job);
     }
 
 }
