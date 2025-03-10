@@ -1,0 +1,5 @@
+JobApplication\JobApp\JobAppApplication.class
+JobApplication\JobApp\DAO\JobRepository.class
+JobApplication\JobApp\Service\JobService.class
+JobApplication\JobApp\Controller\JobAppController.class
+JobApplication\JobApp\Model\Job.class

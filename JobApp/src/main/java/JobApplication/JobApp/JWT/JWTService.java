@@ -1,23 +1,28 @@
 package JobApplication.JobApp.JWT;
 
+import JobApplication.JobApp.Model.JwtProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import org.hibernate.query.sql.internal.ParameterRecognizerImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
 import java.time.Instant;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 public class JWTService {
-    private final String secretKey="DGTE12#IKO&GCBEYAPLMQ15*UQBZTE@}";
-    private final SecretKey secret= Keys.hmacShaKeyFor(secretKey.getBytes());
+
+//    @Autowired
+//    private JwtProperties jwtProperties;
+
+    //@Value("${jwt.secret}")
+    //for testing purpose
+   private final String key="DGTE12#IKO&GCBEYAPLMQ15*UQBZTE@}";
+    private final SecretKey secret=Keys.hmacShaKeyFor(key.getBytes());
 
     public String generateToken(String username)
     {
