@@ -1,6 +1,7 @@
 package JobApplication.JobApp.Service;
 
 import JobApplication.JobApp.DAO.JobRepository;
+import JobApplication.JobApp.Exception.NotFoundException;
 import JobApplication.JobApp.Model.Job;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,19 +40,16 @@ public class JobService {
 
     public ResponseEntity<Job> getJobById(Long id) {
 
-               Job job= this.jobRepo.findById(id).orElseThrow();
+               Job job= this.jobRepo.findById(id).orElseThrow(()-> new NotFoundException(String.format("Job with id %d is not found",id)));
         return new ResponseEntity<>(job, HttpStatus.OK);
     }
 
     public ResponseEntity<Job> updateJob(Long id, Job job) {
         try{
-            Job oldjob=this.jobRepo.findById(id).orElseThrow();
-            oldjob=Job.builder().jobTitle(job.getJobTitle())
-                    .jobDesc(job.getJobDesc())
-                    .location(job.getLocation())
-                    .maxSalary(job.getMaxSalary())
-                    .minSalary(job.getMinSalary())
-                    .build();
+            Job oldjob=this.jobRepo.findById(id).orElseThrow(()-> new NotFoundException(String.format("Job with id %d is not found",id)));
+           oldjob.setJobDesc(job.getJobDesc());
+           oldjob.setJobTitle(job.getJobTitle());
+           oldjob.setCompany(job.getCompany());
             Job updatedJob=this.jobRepo.save(oldjob);
             return new ResponseEntity<>(updatedJob,HttpStatus.OK);
         } catch (Exception e) {

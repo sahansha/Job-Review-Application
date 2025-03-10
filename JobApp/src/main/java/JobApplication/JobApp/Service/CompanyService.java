@@ -1,6 +1,7 @@
 package JobApplication.JobApp.Service;
 
 import JobApplication.JobApp.DAO.CompanyRepository;
+import JobApplication.JobApp.Exception.NotFoundException;
 import JobApplication.JobApp.Model.Company;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +34,7 @@ public class CompanyService {
     public ResponseEntity<Company> getCompanyById(Long id) {
         try{
             Company company=this.companyRepository.findById(id)
-                    .orElseThrow(()->new RuntimeException(String.format("Company with id %d does not exists ",id)));
+                    .orElseThrow(()->new NotFoundException(String.format("Company with id %d does not exists ",id)));
             return new ResponseEntity<>(company,HttpStatus.OK);
         }
         catch (Exception e)
@@ -59,7 +60,7 @@ public class CompanyService {
     public ResponseEntity<Company> updateCompany(Long id, Company company) {
         try{
             Company oldCompany=this.companyRepository.findById(id)
-                    .orElseThrow(()->new RuntimeException(String.format("Company with id %d does not exists ",id)));
+                    .orElseThrow(()->new NotFoundException(String.format("Company with id %d does not exists ",id)));
             oldCompany.setName(company.getName());
             oldCompany.setDescription(company.getDescription());
             Company updatedCompany=this.companyRepository.save(oldCompany);

@@ -3,6 +3,7 @@ package JobApplication.JobApp.Controller;
 import JobApplication.JobApp.Model.Company;
 import JobApplication.JobApp.Service.CompanyService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,12 +29,14 @@ public class CompanyController {
         return this.companyService.getCompanyById(id);
     }
 
-    @PostMapping
+    @PostMapping("/createupdate")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Company> addNewCompany(@RequestBody Company company)
     {
         return this.companyService.addNewCompany(company);
     }
-    @PutMapping("/{id}")
+    @PutMapping("/createupdate/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Company> updateCompany(@PathVariable Long id,@RequestBody Company company)
     {
         return this.companyService.updateCompany(id,company);

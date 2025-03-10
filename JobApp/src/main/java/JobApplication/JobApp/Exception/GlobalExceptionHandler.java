@@ -23,4 +23,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 .build();
         return new ResponseEntity<>(exceptionDetails, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ExceptionDetails> handleNotFoundException(Exception ex, WebRequest request)throws Exception
+    {
+        ExceptionDetails exceptionDetails=ExceptionDetails.builder()
+                .timeStamp(Instant.now())
+                .message(ex.getMessage())
+                .description(request.getDescription(false))
+                .build();
+        return new ResponseEntity<>(exceptionDetails, HttpStatus.NOT_FOUND);
+    }
 }

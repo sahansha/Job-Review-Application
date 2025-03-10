@@ -5,6 +5,7 @@ import JobApplication.JobApp.Service.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,13 +30,15 @@ public class JobAppController {
         return this.jobService.getJobById(id);
     }
 
-    @PostMapping(path = {"/addjob"},consumes = "application/json")
+    @PostMapping(path = {"/addupdatejob"},consumes = "application/json")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Job> addJob(@RequestBody Job job)
     {
         return this.jobService.addJob(job);
     }
 
-    @PutMapping(path = "/{id}",consumes = "application/json")
+    @PutMapping(path = "/addupdatejob/{id}",consumes = "application/json")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Job> updateJob(@PathVariable Long id,@RequestBody Job job)
     {
         return this.jobService.updateJob(id,job);
